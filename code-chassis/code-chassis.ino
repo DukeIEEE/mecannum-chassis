@@ -5,6 +5,11 @@
  */
  
 #include <Servo.h>
+#include <ServoTimer2.h>
+#include <VirtualWire.h>
+
+ServoTimer2 rServo;
+ServoTimer2 lServo;
 
 Servo front_left, front_right, back_left, back_right;
 
