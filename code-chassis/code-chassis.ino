@@ -7,31 +7,26 @@
 #include <VirtualWire.h>
 #include <ServoTimer2.h>
 
-/*
-  #include <Servo.h>
-  ServoTimer2 rServo;
-  ServoTimer2 lServo;
-
-  Servo front_left, front_right, back_left, back_right;
-*/
 #define recievePin 2
+#define fl_pin 5
+#define fr_pin 3
+#define bl_pin 10
+#define br_pin 9
 ServoTimer2 front_left, front_right, back_left, back_right;
 
 void setup() {
   Serial.begin(9600);
-  
   vw_set_rx_pin(recievePin);
   vw_setup(2000);
   vw_rx_start();
 
-  front_left.attach(5);
-  front_right.attach(3);
-  back_left.attach(10);
-  back_right.attach(9);
+  front_left.attach(fl_pin);
+  front_right.attach(fr_pin);
+  back_left.attach(bl_pin);
+  back_right.attach(br_pin);
 
   fl(0); fr(0); bl(0); br(0);
 }
-
 
 void loop() {
   uint8_t buf[VW_MAX_MESSAGE_LEN];
@@ -62,40 +57,6 @@ void loop() {
   Serial.println();
 }
 
-void forward(){
-    fl(1); fr(1);
-    bl(1); br(1);
-  }
-
-  void backward(){
-    fl(-1); fr(-1);
-    bl(-1); br(-1);
-  }
-
-  void left(){
-    fl(-1); fr(1);
-    bl(1); br(-1);
-  }
-
-  void right(){
-    fl(1); fr(-1);
-    bl(-1); br(1);
-  }
-
-  void rotate(int dir){
-  if(dir == 1){ // clockwise
-    fl(1);
-    fr(-1);
-    bl(1);
-    br(-1);
-  }else{ // counterclockwise
-    fl(-1);
-    fr(1);
-    bl(-1);
-    br(1);
-  }
-  }
-
 void fl(int dir){
   if(dir == 0){
     front_left.write(1500);
@@ -103,13 +64,6 @@ void fl(int dir){
     int cmd  = (int) mapFloat(dir, -1, 1, 1300, 1700);
     front_left.write(cmd);
   }
-//  if(dir == 1){
-//    front_left.write(1700);
-//  } else if (dir == -1){
-//    front_left.write(1300);
-//  } else{
-//    front_left.write(1500);
-//  }
 }
 
 void fr(int dir){
@@ -119,13 +73,6 @@ void fr(int dir){
     int cmd  = (int) mapFloat(dir, -1, 1, 1700, 1300);
     front_right.write(cmd);
   }
-//  if(dir == 1){
-//    front_right.write(1300);
-//  }else if (dir == -1){
-//    front_right.write(1700);
-//  }else{
-//    front_right.write(1500);
-//  }
 }
 
 void bl(int dir){
@@ -135,13 +82,6 @@ void bl(int dir){
     int cmd  = (int) mapFloat(dir, -1, 1, 1300, 1700);
     back_left.write(cmd);
   }
-//  if(dir == 1){
-//    back_left.write(1700);
-//  }else if (dir == -1){
-//    back_left.write(1300);
-//  }else{
-//    back_left.write(1500);
-//  }
 }
 
 void br(int dir){
@@ -151,13 +91,6 @@ void br(int dir){
     int cmd  = (int) mapFloat(dir, -1, 1, 1700, 1300);
     back_right.write(cmd);
   }
-//  if(dir == 1){
-//    back_right.write(1300);
-//  } else if (dir == -1){
-//    back_right.write(1700);
-//  }else{
-//    back_right.write(1500);
-//  }
 }
 
 float mapFloat(float x, float in_min, float in_max, float out_min, float out_max){
@@ -166,21 +99,55 @@ float mapFloat(float x, float in_min, float in_max, float out_min, float out_max
 
 
 /*
-  void setup() {
+void setup() {
   front_left.attach(5);
   front_right.attach(3);
   back_left.attach(10);
   back_right.attach(9);
-  }
+}
 
-  void loop() {
+void loop() {
   left();
   delay(1000);
   right();
   delay(1000);
   forward();
   delay(1000);
-  }
+}
+
+void forward(){
+  fl(1); fr(1);
+  bl(1); br(1);
+}
+
+void backward(){
+  fl(-1); fr(-1);
+  bl(-1); br(-1);
+}
+
+void left(){
+  fl(-1); fr(1);
+  bl(1); br(-1);
+}
+
+void right(){
+  fl(1); fr(-1);
+  bl(-1); br(1);
+}
+
+void rotate(int dir){
+if(dir == 1){ // clockwise
+  fl(1);
+  fr(-1);
+  bl(1);
+  br(-1);
+}else{ // counterclockwise
+  fl(-1);
+  fr(1);
+  bl(-1);
+  br(1);
+}
+}
 */
  
 
