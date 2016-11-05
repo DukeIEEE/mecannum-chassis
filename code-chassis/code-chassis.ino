@@ -4,14 +4,51 @@
  * v1.0
  */
  
+
+#include <VirtualWire.h>
+/*
 #include <Servo.h>
 #include <ServoTimer2.h>
-#include <VirtualWire.h>
-
 ServoTimer2 rServo;
 ServoTimer2 lServo;
 
 Servo front_left, front_right, back_left, back_right;
+
+*/
+
+#define ledPin 13        //Onboard LED = digital pin 13
+
+ unsigned int data = 0;   // variable used to store received data
+
+ void setup(){
+   pinMode(ledPin, OUTPUT);
+   Serial.begin(9600);
+   vw_set_rx_pin(2);
+   vw_setup(2000);
+   vw_rx_start();
+   
+ }
+
+ void loop(){
+    uint8_t buf[VW_MAX_MESSAGE_LEN];
+    uint8_t buflen = VW_MAX_MESSAGE_LEN;
+
+    vw_wait_rx();
+    vw_get_message(buf, &buflen);
+    
+    for (int i = 0; i < buflen; i++)
+    {
+       Serial.print(buf[i], HEX);
+       Serial.print(' ');
+    }
+    Serial.println();
+        digitalWrite(ledPin, LOW);
+    
+ }
+
+/*
+
+
 
 void setup() {
   front_left.attach(5);
@@ -102,4 +139,5 @@ void br(int dir){
     back_right.writeMicroseconds(1500); 
   }
 }
+*/
 
